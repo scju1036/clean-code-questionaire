@@ -1,0 +1,22 @@
+?Which of these animals is a mammal
+Ant
+Bee
+*Cat
+?What is the sum of 2+3
+2
+*5
+6
+?What is the capital of Germany
+Bonn
+*Berlin
+Munich
+?Which planet is the closest to the sun
+Earth
+Venus
+Mars
+*Mercury
+?How many seconds has a day
+*86400
+2400
+112400
+
