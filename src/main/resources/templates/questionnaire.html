@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Getting Started: Serving Web Content</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+
+        <div class="main">
+            <div class="questionnaire-container">
+                <p>Questionnaire</p>
+                <form th:action="@{/questionnaire}" th:object="${questionWrapper}" method="post" >
+                    <div th:each="question, questionStat : ${questionWrapper.questions}">
+                        <p th:text="${question.sentence}"></p>
+                        <input hidden th:field="${questionWrapper.questions[__${questionStat.index}__].sentence}" th:value="${question.getSentence()}">
+                        <ul>
+                            <li th:each="answer, answerStat : ${question.answers}">
+<!--                                th:field="${questionWrapper.questions[__${questionStat.index}__].answers[__${answerStat.index}__].selected}"-->
+                                <input
+                                    type="radio"
+                                    th:id="${question.sentence}+${answerStat.index}"
+                                    th:name="${question.sentence}"
+                                    th:checked="${answer.getSelected()}"
+                                    th:value="${answer.selected}" />
+                                <label
+                                    th:for="${question.sentence}+${answerStat.index}"
+                                    th:text="${answer.sentence}">
+                                </label>
+                                <input hidden th:field="${questionWrapper.questions[__${questionStat.index}__].answers[__${answerStat.index}__].sentence}" th:value="${answer.getSentence()}">
+                                <input hidden th:field="${questionWrapper.questions[__${questionStat.index}__].answers[__${answerStat.index}__].correct}" th:value="${answer.getCorrect()}">
+                            </li>
+                        </ul>
+                    </div>
+                    <button type="submit" name="action">Show my score...</button>
+                </form>
+            </div>
+        </div>
+
+    </body>
+
+</html>
