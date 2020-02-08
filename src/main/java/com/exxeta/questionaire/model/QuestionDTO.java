@@ -15,6 +15,8 @@ public class QuestionDTO {
 
     private List<AnswerDTO> answers;
 
+    private Long selectedAnswer;
+
     public String getSentence() {
         return sentence;
     }
@@ -29,5 +31,13 @@ public class QuestionDTO {
 
     public void setAnswers(List<AnswerDTO> answers) {
         this.answers = answers;
+    }
+
+    public Long getSelectedAnswer() {
+        return selectedAnswer;
+    }
+
+    public void setSelectedAnswer(Long selectedAnswer) {
+        this.selectedAnswer = selectedAnswer;
     }
 }

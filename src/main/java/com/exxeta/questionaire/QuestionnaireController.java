@@ -2,6 +2,7 @@ package com.exxeta.questionaire;
 
 import com.exxeta.questionaire.domain.FileReader;
 import com.exxeta.questionaire.domain.QuestionCreator;
+import com.exxeta.questionaire.domain.QuestionParser;
 import com.exxeta.questionaire.model.QuestionDTO;
 import com.exxeta.questionaire.model.QuestionWrapperDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +21,21 @@ public class QuestionnaireController {
 	private FileReader fileReader;
 
 	@Autowired
+	private QuestionParser questionParser;
+
+	@Autowired
 	private QuestionCreator questionCreator;
 
-	@GetMapping("/questionnaire")
+	@GetMapping("/")
 	public String questionnaire(Model model) {
 		List<String> lines = fileReader.readFile();
-		List<QuestionDTO> questions = questionCreator.createQuestions(lines);
-		QuestionWrapperDTO questionWrapper = QuestionWrapperDTO.builder().questions(questions).build();
+		List<List<String>> aggregatedQuestions = questionParser.parse(lines);
+		QuestionWrapperDTO questionWrapper = questionCreator.createQuestions(aggregatedQuestions);
 		model.addAttribute("questionWrapper", questionWrapper);
 		return "questionnaire";
 	}
 
-	@PostMapping("/questionnaire")
+	@PostMapping("/")
 	public void questionnaire(@ModelAttribute(name = "questionWrapper") QuestionWrapperDTO questionWrapper) {
 		List<QuestionDTO> questions = questionWrapper.getQuestions();
 	}

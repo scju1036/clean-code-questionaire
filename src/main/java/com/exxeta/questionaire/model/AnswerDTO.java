@@ -11,8 +11,6 @@ public class AnswerDTO {
 
     private String sentence;
 
-    private Boolean selected;
-
     private Boolean correct;
 
     public String getSentence() {
@@ -21,14 +19,6 @@ public class AnswerDTO {
 
     public void setSentence(String sentence) {
         this.sentence = sentence;
-    }
-
-    public Boolean getSelected() {
-        return selected;
-    }
-
-    public void setSelected(Boolean selected) {
-        this.selected = selected;
     }
 
     public Boolean getCorrect() {
