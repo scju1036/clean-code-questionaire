@@ -28,7 +28,7 @@ public class QuestionnaireController {
 
 	@GetMapping("/")
 	public String questionnaire(Model model) {
-		List<String> lines = fileReader.readFile();
+		List<String> lines = fileReader.readFile("questionnaire.txt");
 		List<List<String>> aggregatedQuestions = questionParser.parse(lines);
 		QuestionWrapperDTO questionWrapper = questionCreator.createQuestions(aggregatedQuestions);
 		model.addAttribute("questionWrapper", questionWrapper);

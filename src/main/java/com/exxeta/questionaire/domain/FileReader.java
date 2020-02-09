@@ -11,15 +11,14 @@ import java.util.List;
 @Service
 public class FileReader {
 
-    public List<String> readFile() {
+    public List<String> readFile(String fileName) {
         List<String> lines = new ArrayList<>();
         try {
-            lines = Files.readAllLines(Path.of("questionnaire.txt"));
+            lines = Files.readAllLines(Path.of(fileName));
         }
         catch (IOException ex) {
             ex.printStackTrace();
         }
-
         lines.removeIf(s -> s.isEmpty());
         return lines;
     }
