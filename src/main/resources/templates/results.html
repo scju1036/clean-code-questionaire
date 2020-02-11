@@ -13,6 +13,15 @@
                     <p th:text="${resultDTO.totalCorrect} + ' out of ' + ${resultDTO.totalQuestions} +
                     ' questions answered correctly (' + ${resultDTO.totalCorrect}/${resultDTO.totalQuestions}*100 + '%)'"></p>
                 </div>
+                <div th:each="questionResult : ${resultDTO.questionResults}">
+                    <p th:text="'&emsp;' + ${questionResult.sentence}"></p>
+                    <p th:if="${questionResult.correct}"
+                            th:text="'&emsp;' + '&emsp;'+ 'Your Answer \'' + ${questionResult.selectedAnswer} + '\' is correct'"></p>
+                    <p th:if="${not questionResult.correct}"
+                       th:text="'&emsp;' + '&emsp;'+ 'Your Answer \'' + ${questionResult.selectedAnswer} + '\' is wrong'"></p>
+                    <p th:if="${not questionResult.correct}"
+                       th:text="'&emsp;' + '&emsp;'+ 'Correct Answer: \'' + ${questionResult.correctAnswer} + '\''"></p>
+                </div>
             </div>
         </div>
     </body>
