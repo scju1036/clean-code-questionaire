@@ -43,7 +43,7 @@ public class QuestionnaireController {
 	@PostMapping("/")
 	public String questionnaire(@ModelAttribute(name = "questionWrapper") QuestionWrapperDTO questionWrapper, Model model) {
 		List<QuestionDTO> questions = questionWrapper.getQuestions();
-		ResultDTO resultDTO = answerAnalyser.Analyse(questions);
+		ResultDTO resultDTO = answerAnalyser.analyse(questions);
 		model.addAttribute("resultDTO", resultDTO);
 		return "results";
 	}

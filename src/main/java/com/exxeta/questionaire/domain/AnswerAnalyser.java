@@ -13,40 +13,11 @@ import java.util.stream.Collectors;
 @Service
 public class AnswerAnalyser {
 
-    public ResultDTO Analyse(List<QuestionDTO> questions){
+    public ResultDTO analyse(List<QuestionDTO> questions) {
         ResultDTO resultDTO = new ResultDTO();
 
         for (QuestionDTO question : questions) {
-            QuestionResultDTO questionResultDTO = new QuestionResultDTO();
-
-            // Set the original question/sentence
-            questionResultDTO.setSentence(question.getSentence());
-
-            // Get All Answers
-            List<AnswerDTO> answers = question.getAnswers();
-
-            // Get Correct answer Index
-            Optional<AnswerDTO> correctAnswerOptional = answers.stream()
-                                            .filter(answerDTO -> answerDTO.getCorrect())
-                                            .findFirst();
-            AnswerDTO correctAnswer = correctAnswerOptional.get();
-
-            // Set correct answer sentence
-            questionResultDTO.setCorrectAnswer(correctAnswer.getSentence());
-
-            // Set the selected Answer Sentence and Correctness
-            // If no answer was selected, then the answer is wrong
-            if(question.getSelectedAnswer() == null) {
-                questionResultDTO.setCorrect(false);
-                questionResultDTO.setSelectedAnswer("");
-            }else{ // Otherwise, pull the answer and check if it was the correct one.
-                Integer selectedAnswerIndex = Math.toIntExact(question.getSelectedAnswer());
-                AnswerDTO selectedAnswer = answers.get(selectedAnswerIndex);
-
-                questionResultDTO.setCorrect(selectedAnswer.getCorrect());
-                questionResultDTO.setSelectedAnswer(selectedAnswer.getSentence());
-            }
-
+            QuestionResultDTO questionResultDTO = analyseAnsweredQuestion(question);
             resultDTO.getQuestionResults().add(questionResultDTO);
         }
 
@@ -61,4 +32,65 @@ public class AnswerAnalyser {
         return resultDTO;
     }
 
+    public QuestionResultDTO analyseAnsweredQuestion(QuestionDTO question){
+        QuestionResultDTO questionResultDTO = new QuestionResultDTO();
+
+        // Set the original question/sentence
+        String originalQuestionSentence = extractQuestionSentence(question);
+        questionResultDTO.setSentence(originalQuestionSentence);
+
+        // Set the correct answer sentence
+        String correctAnswerSentence = extractCorrectAnswerSentence(question);
+        questionResultDTO.setCorrectAnswer(correctAnswerSentence);
+
+        // Set the selected answer sentence
+        String selectedAnswerSentence = extractSelectedAnswerSentence(question);
+        questionResultDTO.setSelectedAnswer(selectedAnswerSentence);
+
+        // Set the selected answer sentence
+        boolean isSelectedAnswerCorrect = isSelectedAnswerCorrect(question);
+        questionResultDTO.setCorrect(isSelectedAnswerCorrect);
+
+        return questionResultDTO;
+    }
+
+    public String extractQuestionSentence(QuestionDTO questionDTO) {
+        return questionDTO.getSentence();
+    }
+
+    public String extractCorrectAnswerSentence(QuestionDTO questionDTO){
+        // Get all answers
+        List<AnswerDTO> answers = questionDTO.getAnswers();
+
+        // Get the correct answer
+        Optional<AnswerDTO> correctAnswerOptional = answers.stream()
+                .filter(answerDTO -> answerDTO.getCorrect())
+                .findFirst();
+
+        return correctAnswerOptional.get().getSentence();
+    }
+
+    public String extractSelectedAnswerSentence(QuestionDTO questionDTO){
+        if (questionDTO.getSelectedAnswer() == null) {
+            return "";
+        }
+
+        // Otherwise, pull the answer and check if it was the correct one.
+        Integer selectedAnswerIndex = Math.toIntExact(questionDTO.getSelectedAnswer());
+        AnswerDTO selectedAnswer = questionDTO.getAnswers().get(selectedAnswerIndex);
+
+        return selectedAnswer.getSentence();
+    }
+
+    public boolean isSelectedAnswerCorrect(QuestionDTO questionDTO){
+        if (questionDTO.getSelectedAnswer() == null) {
+            return false;
+        }
+
+        // Otherwise, pull the answer and check if it was the correct one.
+        Integer selectedAnswerIndex = Math.toIntExact(questionDTO.getSelectedAnswer());
+        AnswerDTO selectedAnswer = questionDTO.getAnswers().get(selectedAnswerIndex);
+
+        return selectedAnswer.getCorrect();
+    }
 }
