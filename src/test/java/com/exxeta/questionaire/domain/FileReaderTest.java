@@ -4,7 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import java.io.IOException;
+import org.springframework.web.client.HttpClientErrorException;
+
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,12 +35,12 @@ public class FileReaderTest {
     }
 
 
-//    @Test(expected = IOException.class)
-//    public void readFileWithoutPresentFileTest() {
-//        // execute test
-//        List<String> lines  = fileReader.readFile("notPresent.txt");
-//
-//        // verify result
-//        fail();
-//    }
+    @Test(expected = HttpClientErrorException.class)
+    public void readFileWithoutPresentFileTest() {
+        // execute test
+        List<String> lines  = fileReader.readFile("notPresent.txt");
+
+        // verify result
+        fail();
+    }
 }
