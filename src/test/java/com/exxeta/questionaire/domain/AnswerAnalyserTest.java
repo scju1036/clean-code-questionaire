@@ -52,11 +52,8 @@ public class AnswerAnalyserTest {
 
     @Test
     public void analyseTest() {
-        // execute test
         ResultDTO resultDTO = answerAnalyser.analyse(List.of(question1, question2, question3));
 
-        // verify results
-        assertThat(resultDTO).isNotNull();
         assertThat(resultDTO.getTotalCorrect()).isEqualTo(1);
         assertThat(resultDTO.getTotalQuestions()).isEqualTo(3);
         assertThat(resultDTO.getQuestionResults().get(0).getCorrect()).isFalse();
@@ -66,20 +63,16 @@ public class AnswerAnalyserTest {
 
     @Test
     public void analyseAnsweredQuestionCorrectTest() {
-        // execute test
         QuestionResultDTO questionResultDTO = answerAnalyser.analyseAnsweredQuestion(question3);
 
-        // verify results
         assertThat(questionResultDTO).isNotNull();
         assertThat(questionResultDTO.getCorrect()).isTrue();
     }
 
     @Test
     public void analyseAnsweredQuestionIncorrectTest() {
-        // execute test
         QuestionResultDTO questionResultDTO = answerAnalyser.analyseAnsweredQuestion(question1);
 
-        // verify results
         assertThat(questionResultDTO).isNotNull();
         assertThat(questionResultDTO.getCorrect()).isFalse();
     }

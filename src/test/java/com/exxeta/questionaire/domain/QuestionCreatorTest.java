@@ -43,11 +43,9 @@ public class QuestionCreatorTest {
         this.questionCreator = new QuestionCreator();
     }
 
-    /// ---- INTEGRATION TESTS ---- ///
 
     @Test
     public void createQuestionTest() {
-        // prepare test data
         List<List<String>> mockAggregatedQuestions = List.of(
                 List.of(
                         "?Question 1",
@@ -62,11 +60,8 @@ public class QuestionCreatorTest {
                 )
         );
 
-        // execute test
         QuestionWrapperDTO wrapper = this.questionCreator.createQuestions(mockAggregatedQuestions);
 
-        // verify results
-        assertThat(wrapper).isNotNull();
         assertThat(wrapper.getQuestions()).hasSize(2);
 
         assertThat(wrapper.getQuestions().get(0).getSentence()).isEqualTo("Question 1?");
@@ -90,24 +85,18 @@ public class QuestionCreatorTest {
         assertThat(wrapper.getQuestions().get(1).getAnswers().get(3).getSentence()).isEqualTo("Don't know");
     }
 
-    /// ---- UNIT TESTS ---- ///
-
     @Test
     public void buildSentenceTest() {
-        // execute test
         String sentence = questionCreator.buildSentence(MOCK_QUESTION_LINES);
 
-        // verify result
-        assertThat(sentence).isNotNull().isEqualTo("Question 1?");
+        assertThat(sentence).isEqualTo("Question 1?");
     }
 
     @Test
     public void buildAnswersTest() {
-        // execute test
         List<AnswerDTO> answers = this.questionCreator.buildAnswers(MOCK_QUESTION_LINES);
 
-        // verify results
-        assertThat(answers).isNotNull().hasSize(2);
+        assertThat(answers).hasSize(2);
         assertThat(answers.get(0).getCorrect()).isEqualTo(true);
         assertThat(answers.get(0).getSentence()).isEqualTo("Answers 1_1");
         assertThat(answers.get(1).getCorrect()).isEqualTo(false);
@@ -116,39 +105,31 @@ public class QuestionCreatorTest {
 
     @Test
     public void addAdditionalAnswersTest() {
-        // execute test
         List<AnswerDTO> answers = this.questionCreator.addAdditionalAnswer(MOCK_ANSWERS);
 
-        // verify results
-        assertThat(answers).isNotNull().hasSize(3);
+        assertThat(answers).hasSize(3);
         assertThat(answers.get(2).getSentence()).isEqualTo("Don't know");
         assertThat(answers.get(2).getCorrect()).isEqualTo(false);
     }
 
     @Test
     public void buildQuestionTest() {
-        // prepare mock data
         String questionSentence = "Question 1?";
 
-        // execute test
         QuestionDTO question = this.questionCreator.buildQuestion(questionSentence, MOCK_ANSWERS);
 
-        // verify results
-        assertThat(question).isNotNull();
+        assertThat(question);
         assertThat(question.getSentence()).isEqualTo(questionSentence);
         assertThat(question.getAnswers()).isEqualTo(MOCK_ANSWERS);
     }
 
     @Test
     public void buildWrapperTest() {
-        // prepare mock data
         List<QuestionDTO> questions = List.of(Mockito.mock(QuestionDTO.class), Mockito.mock(QuestionDTO.class));
 
-        // execute test
         QuestionWrapperDTO wrapper = this.questionCreator.buildWrapper(questions);
 
-        // verify results
-        assertThat(wrapper).isNotNull();
+        assertThat(wrapper);
         assertThat(wrapper.getQuestions()).isEqualTo(questions);
     }
 }

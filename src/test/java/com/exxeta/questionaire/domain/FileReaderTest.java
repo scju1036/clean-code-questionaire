@@ -23,11 +23,9 @@ public class FileReaderTest {
 
     @Test
     public void readFileWithPresentFileTest() {
-        // execute test
         List<String> lines  = fileReader.readFile("questionnaireTest.txt");
 
-        // verify result
-        assertThat(lines).isNotNull().hasSize(4);
+        assertThat(lines).hasSize(4);
         assertThat(lines.get(0)).isEqualTo("?Which of these animals is a mammal");
         assertThat(lines.get(1)).isEqualTo("Ant");
         assertThat(lines.get(2)).isEqualTo("Bee");
@@ -37,10 +35,8 @@ public class FileReaderTest {
 
     @Test(expected = HttpClientErrorException.class)
     public void readFileWithoutPresentFileTest() {
-        // execute test
         List<String> lines  = fileReader.readFile("notPresent.txt");
 
-        // verify result
         fail();
     }
 }

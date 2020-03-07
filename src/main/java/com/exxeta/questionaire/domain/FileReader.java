@@ -21,7 +21,6 @@ public class FileReader {
         catch (IOException ex) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing questions file");
         }
-        lines.removeIf(s -> s.isEmpty());
         return lines;
     }
 }

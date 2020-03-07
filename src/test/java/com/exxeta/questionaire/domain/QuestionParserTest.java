@@ -33,11 +33,9 @@ public class QuestionParserTest {
 
     @Test
     public void parseTest() {
-        // execute test
         List<List<String>> aggregated = questionParser.parse(MOCK_LINES);
 
-        // verify results
-        assertThat(aggregated).isNotNull().hasSize(2);
+        assertThat(aggregated).hasSize(2);
         assertThat(aggregated.get(0)).isNotNull().hasSize(3);
         assertThat(aggregated.get(0).get(0)).isEqualTo("?Question 1");
         assertThat(aggregated.get(0).get(1)).isEqualTo("Answers 1_1");
@@ -52,37 +50,29 @@ public class QuestionParserTest {
 
     @Test
     public void getIndicesOfQuestionsTestWithValidData() {
-        // execute test
         List<Integer> indices = questionParser.getIndicesOfQuestions(MOCK_LINES);
 
-        // verify results
-        assertThat(indices).isNotNull().hasSize(2);
+        assertThat(indices).hasSize(2);
         assertThat(indices.get(0)).isEqualTo(0);
         assertThat(indices.get(1)).isEqualTo(3);
     }
 
     @Test
     public void getIndicesOfQuestionsTestWithEmptyData() {
-        // prepare mock data
         List<String> mockLines = new ArrayList<>();
 
-        // execute test
         List<Integer> indices = questionParser.getIndicesOfQuestions(mockLines);
 
-        // verify results
-        assertThat(indices).isNotNull().hasSize(0);
+        assertThat(indices).hasSize(0);
     }
 
     @Test
     public void aggregateQuestionsTestWithValidData() {
-        // prepare mock data
         List<Integer> mockIndices = List.of(0,3);
 
-        // execute test
         List<List<String>> aggregated = questionParser.aggregateQuestions(mockIndices, MOCK_LINES);
 
-        // verify results
-        assertThat(aggregated).isNotNull().hasSize(2);
+        assertThat(aggregated).hasSize(2);
         assertThat(aggregated.get(0)).isNotNull().hasSize(3);
         assertThat(aggregated.get(0).get(0)).isEqualTo("?Question 1");
         assertThat(aggregated.get(0).get(1)).isEqualTo("Answers 1_1");
@@ -95,14 +85,11 @@ public class QuestionParserTest {
 
     @Test
     public void aggregateQuestionsTestWithEmptyData() {
-        // prepare mock data
         List<String> mockLines = new ArrayList<>();
         List<Integer> mockIndices = new ArrayList<>();
 
-        // execute test
         List<List<String>> aggregated = questionParser.aggregateQuestions(mockIndices, mockLines);
 
-        // verify results
-        assertThat(aggregated).isNotNull().hasSize(0);
+        assertThat(aggregated).hasSize(0);
     }
 }

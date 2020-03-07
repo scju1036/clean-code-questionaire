@@ -15,14 +15,18 @@ public class QuestionCreator {
     public QuestionWrapperDTO createQuestions(List<List<String>> aggregatedQuestions) {
         List<QuestionDTO> questions = new ArrayList<>();
         aggregatedQuestions.forEach(aggregatedQuestion -> {
-            String sentence = buildSentence(aggregatedQuestion);
-            List<AnswerDTO> answers = buildAnswers(aggregatedQuestion);
-            List<AnswerDTO> answersWithAdditional = addAdditionalAnswer(answers);
-            QuestionDTO question = buildQuestion(sentence, answersWithAdditional);
+            QuestionDTO question = createQuestion(aggregatedQuestion);
             questions.add(question);
         });
         QuestionWrapperDTO wrapper = buildWrapper(questions);
         return wrapper;
+    }
+
+    QuestionDTO createQuestion(List<String> aggregatedQuestion) {
+        String sentence = buildSentence(aggregatedQuestion);
+        List<AnswerDTO> answers = buildAnswers(aggregatedQuestion);
+        List<AnswerDTO> answersWithAdditional = addAdditionalAnswer(answers);
+        return buildQuestion(sentence, answersWithAdditional);
     }
 
     String buildSentence(List<String> rawQuestion) {

@@ -1,5 +1,4 @@
 ?Which of these animals is a mammal
 Ant
 Bee
-
 *Cat
